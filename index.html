@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Shikhu!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to top right, #ff9a9e, #fad0c4);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.4em;
+      margin: 10px 20px;
+    }
+    button {
+      background: #fff;
+      color: #e91e63;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1em;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      margin-top: 30px;
+    }
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: fall 5s linear infinite;
+      top: -20px;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+    }
+    #messageModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+    #messageModal div {
+      background: white;
+      color: #e91e63;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 90%;
+      font-size: 1.2em;
+      text-align: center;
+    }
+    #messageModal button {
+      margin-top: 20px;
+      background: #e91e63;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="typed-heading"></h1>
+  <p>You're more than just a friend, you're family to me 💖<br>
+     May your day be filled with love, laughter, and cake! 🍰</p>
+  <p>Thank you for always being there 💫<br>
+     Now go out and shine like the star you are! ✨</p>
+
+  <button onclick="startConfetti()">Click for Surprise 🎉</button>
+
+  <canvas id="confettiCanvas" class="confetti"></canvas>
+
+  <!-- Surprise Message Modal -->
+  <div id="messageModal">
+    <div>
+      <p>🌟 You’re truly one of a kind!<br>
+      On your special day, I just want to say how grateful I am for your friendship. ❤️<br>
+      Let’s make unforgettable memories!</p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Birthday Music -->
+  <audio id="bdayMusic" src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" autoplay loop></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Typewriter heading
+    const message = "🎂 Happy Birthday Shikhu! 🥳";
+    let i = 0;
+    const speed = 100;
+    function typeWriter() {
+      if (i < message.length) {
+        document.getElementById("typed-heading").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    window.onload = typeWriter;
+
+    // Confetti and popup
+    function startConfetti() {
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+      document.getElementById("messageModal").style.display = "flex";
+
+      const music = document.getElementById("bdayMusic");
+      if (music) music.play();
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+
+    function closeModal() {
+      document.getElementById("messageModal").style.display = "none";
+    }
+
+    // Heart rain
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
